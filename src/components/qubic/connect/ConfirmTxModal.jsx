@@ -57,21 +57,24 @@ const ConfirmTxModal = ({ tx, open, onClose, onConfirm, onTransactionComplete })
         <>
             {open && (
                 <div
-                    className="w-full p-5 h-full fixed top-0 left-0 overflow-x-hidden overflow-y-auto z-50 bg-smoke-light flex"
+                    className="w-full p-5 h-full fixed top-0 left-0 overflow-x-hidden overflow-y-auto z-50 bg-black bg-opacity-50 flex"
                     onClick={onClose}
                 >
-                    <Card className="relative p-8 w-full max-w-md m-auto flex-col flex" onClick={(e) => e.stopPropagation()}>
+                    <div
+                        className="relative p-8 w-full max-w-md m-auto flex-col flex rounded-2xl border border-blue-800 bg-blue-950 shadow-lg"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="flex justify-between items-center">
-                            <div className="text-2xl text-white">HM25 <span className="text-primary-40">Transaction</span></div>
-                            <button onClick={onClose} className="text-2xl text-white">X</button>
+                            <div className="text-2xl text-white">HM25 <span className="text-blue-400">Transaction</span></div>
+                            <button onClick={onClose} className="text-gray-300 hover:text-white text-2xl">&times;</button>
                         </div>
                         <div className="flex flex-col gap-4 mt-4">
                             {confirmedTx && (
                                 <>
                                     <p className="text-white">Current Tick: {tick} / {confirmedTx.targetTick}</p>
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                    <div className="w-full bg-blue-900 rounded-full h-2.5">
                                         <div
-                                            className="bg-blue-600 h-2.5 rounded-full"
+                                            className="bg-gradient-to-r from-blue-400 to-blue-600 h-2.5 rounded-full"
                                             style={{
                                                 width: tick
                                                     ? `${Math.min(Math.max(((tick - initialTick) / (confirmedTx.targetTick - initialTick)) * 100, 0), 100)}%`
@@ -82,14 +85,14 @@ const ConfirmTxModal = ({ tx, open, onClose, onConfirm, onTransactionComplete })
                                 </>
                             )}
                             {!hasSufficientBalance && (
-                                <p className="text-red-500">Insufficient balance to complete this transaction.</p>
+                                <p className="text-red-400">Insufficient balance to complete this transaction.</p>
                             )}
                             {!confirmedTx && (
                                 <>
                                     <p className="text-white">Action: {tx.title}</p>
                                     <p className="text-white">Amount: {tx.amount} QUBIC</p>
                                     <button
-                                        className="bg-primary-40 p-4 rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed text-black"
+                                        className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 p-4 rounded-xl text-white disabled:opacity-60 disabled:cursor-not-allowed transition-all shadow-sm font-medium"
                                         onClick={async () => {
                                             const confirmed = await onConfirm()
                                             startTickFetchInterval(confirmed)
@@ -100,11 +103,14 @@ const ConfirmTxModal = ({ tx, open, onClose, onConfirm, onTransactionComplete })
                                     </button>
                                 </>
                             )}
-                            <button className="bg-gray-50 p-4 rounded-lg" onClick={onClose}>
+                            <button
+                                className="bg-blue-900 hover:bg-blue-800 p-4 rounded-xl text-white transition-colors"
+                                onClick={onClose}
+                            >
                                 Close
                             </button>
                         </div>
-                    </Card>
+                    </div>
                 </div>
             )}
         </>

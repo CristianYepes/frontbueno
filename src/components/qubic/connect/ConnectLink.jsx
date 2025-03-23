@@ -20,43 +20,35 @@ const ConnectLink = () => {
     return (
         <>
             <div
-                className="absolute right-12 sm:right-12 flex gap-2 items-center cursor-pointer"
+                className="relative flex items-center"
                 onClick={() => toggleConnectModal()}
             >
                 {connected ? (
-                    <>
-                        {/* Desktop View */}
-                        <div className="hidden md:block">
-                            <div className="flex items-center gap-2 text-white">
-                                <img src={lock} alt="Lock icon" className="w-5 h-5"/>
-                                <span className="font-space text-[16px]">Lock Wallet</span>
-                            </div>
+                    <div className="flex flex-col">
+                        {/* Connected State */}
+                        <button className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-blue-900 hover:bg-blue-800 text-white transition-colors">
                             {balance != null && (
-                                <div
-                                    className="text-white mt-1 text-sm cursor-pointer"
-                                    onClick={handleBalanceClick}
-                                    title="Click to refresh balance"
-                                >
-                                    Balance: {formatQubicAmount(balance)} QUBIC
-                                </div>
+                                <span className="hidden sm:inline font-medium mr-1">
+                                    {formatQubicAmount(balance)} QUBIC
+                                </span>
                             )}
-                        </div>
-
-                        {/* Mobile View */}
-                        <div className="md:hidden">
-                            <img src={lock} alt="locked"/>
-                        </div>
-                    </>
+                            <div className="flex items-center gap-2">
+                                <img src={lock} alt="Lock icon" className="w-4 h-4" />
+                                <span className="font-medium text-sm truncate max-w-[120px]">
+                                    {walletPublicIdentity ?
+                                        `${walletPublicIdentity.substring(0, 4)}...${walletPublicIdentity.substring(walletPublicIdentity.length - 4)}`
+                                        : "Wallet"
+                                    }
+                                </span>
+                            </div>
+                        </button>
+                    </div>
                 ) : (
-                    <>
-                        {/* Desktop View */}
-                        <span className="hidden md:block font-space text-[16px] text-white">
-                            Unlock Wallet
-                        </span>
-
-                        {/* Mobile View */}
-                        <img src={unlocked} alt="unlocked"/>
-                    </>
+                    /* Not Connected State */
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-semibold transition-colors shadow-sm shadow-blue-600/20">
+                        <img src={unlocked} alt="unlocked" className="w-4 h-4" />
+                        <span className="text-sm">Connect Wallet</span>
+                    </button>
                 )}
             </div>
 
